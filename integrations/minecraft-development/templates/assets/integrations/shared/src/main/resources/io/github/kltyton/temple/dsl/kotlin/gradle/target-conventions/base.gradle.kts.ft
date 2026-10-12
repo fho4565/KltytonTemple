@@ -29,11 +29,13 @@ val layers = setting("shared_sources").split(',').map { name ->
             !directory.toPath().startsWith(templeRoot.resolve("targets").toPath())) { "Invalid shared source layer: $name" }
     directory
 }
+val resourceLayers = listOf(file("src/main/resources")) + layers.reversed().map { it.resolve("src/main/resources") }
+extra["templeDatagenExistingArgs"] = resourceLayers.filter { it.isDirectory }.asReversed()
+        .flatMap { listOf("--existing", it.absolutePath) }.toTypedArray()
 extensions.configure<SourceSetContainer> {
     named("main") {
         java.srcDirs(layers.map { it.resolve("src/main/java") })
-        resources.setSrcDirs(listOf(file("src/main/resources"), file("src/generated/resources")) +
-                layers.reversed().map { it.resolve("src/main/resources") })
+        resources.setSrcDirs(listOf(resourceLayers.first(), file("src/generated/resources")) + resourceLayers.drop(1))
     }
     named("test") {
         java.srcDirs(layers.map { it.resolve("src/test/java") })

@@ -10,7 +10,7 @@ legacyForge {
         data {
             data()
             programArguments.addAll('--mod', mod_id, '--all', '--output', file('src/generated/resources').absolutePath,
-                    '--existing', file('src/main/resources').absolutePath)
+                    *project.ext.templeDatagenExistingArgs)
         }
     }
     mods { "${mod_id}" { sourceSet sourceSets.main } }

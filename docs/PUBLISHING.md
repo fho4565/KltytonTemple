@@ -7,3 +7,14 @@
 已有环境凭据的自动化调用仍可直接用目标 publishMods，显式选择 publish_platform；没有默认远端 Maven 地址。平台审核与公网下载不能由上传任务或本地构建成功推断。
 
 模组上传和 Maven publication 选择相同 production JAR：旧 Fabric remapJar、旧 Forge reobfJar，未混淆目标 jar。sources JAR 是额外源码产物。检查必须使用实际发行包，不能只检查开发类路径。
+
+所有名称以 `publish` 开头的目标发布任务都依赖 `verifyDistribution`，直接调用平台子任务或 Maven publication 子任务同样会检查生产产物。Archive 类型的 `reobfJar` 提供发行文件；ForgeGradle 原地重映射时保留 `jar` 文件提供者，并等待 `reobfJar` 完成后检查。
+
+```mermaid
+flowchart LR
+    B["jar / remapJar / reobfJar"] --> V["verifyDistribution"]
+    V --> M["Modrinth / CurseForge 发布任务"]
+    V --> P["Maven 发布任务"]
+```
+
+这里的依赖只安排构建和发行检查，不自动执行上传。远端 Maven 地址仍由项目配置，模板没有默认的第三方发布仓库。

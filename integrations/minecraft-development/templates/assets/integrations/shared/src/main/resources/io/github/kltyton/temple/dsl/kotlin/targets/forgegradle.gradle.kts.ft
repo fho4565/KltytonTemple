@@ -21,7 +21,7 @@ extensions.configure<UserDevExtension> {
         create("server") { args("--nogui") }
         create("data") {
             args("--mod", mod_id, "--all", "--output", file("src/generated/resources").absolutePath,
-                    "--existing", file("src/main/resources").absolutePath)
+                    *(project.extra["templeDatagenExistingArgs"] as Array<String>))
         }
     }
 }

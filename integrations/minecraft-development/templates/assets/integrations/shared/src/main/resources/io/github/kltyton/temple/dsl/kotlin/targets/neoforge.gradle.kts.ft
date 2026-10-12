@@ -17,7 +17,7 @@ extensions.configure<NeoForgeExtension> {
         create("data") {
             if (java_version.toInt() >= 25) clientData() else data()
             programArguments.addAll("--mod", mod_id, "--all", "--output", file("src/generated/resources").absolutePath,
-                    "--existing", file("src/main/resources").absolutePath)
+                    *(project.extra["templeDatagenExistingArgs"] as Array<String>))
         }
     }
     mods.create(mod_id) { sourceSet(project.extensions.getByType<SourceSetContainer>().getByName("main")) }

@@ -33,11 +33,13 @@ def layers = shared_sources.split(',').collect { name ->
     }
     directory
 }
+def resourceLayers = [file('src/main/resources')] + layers.reverse().collect { new File(it, 'src/main/resources') }
+project.ext.templeDatagenExistingArgs = resourceLayers.findAll { it.isDirectory() }.reverse()
+        .collectMany { ['--existing', it.absolutePath] } as String[]
 sourceSets {
     main {
         java.srcDirs(layers.collect { new File(it, 'src/main/java') })
-        resources.setSrcDirs([file('src/main/resources'), file('src/generated/resources')] +
-                layers.reverse().collect { new File(it, 'src/main/resources') })
+        resources.setSrcDirs([resourceLayers.first(), file('src/generated/resources')] + resourceLayers.drop(1))
     }
     test {
         java.srcDirs(layers.collect { new File(it, 'src/test/java') })

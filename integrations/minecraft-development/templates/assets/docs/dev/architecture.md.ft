@@ -18,4 +18,26 @@ Minecraft Development 集成使用其 .mcdev.template.json、Local 仓库和公�
 Gradle 新建表单和 Minecraft Development 导出共用 ProjectFiles.projectFiles 的文件选择规则。新工程包含共享构建代码、目标蓝图及迁移文档，排除 IDE 插件开发工程、向导资产、私人配置和 Eclipse 元数据。版本目录按实际差异建立，每个 Minecraft 版本只维护一份；旧工程目录与缓存不属于迁移后的结构。
 
 Groovy/Kotlin DSL 选择由 temple_build_dsl 记录。KTS 构建脚本在 integrations/shared 的 resources 中维护，由 BuildScripts 安装到新建工程的标准 Gradle 路径；根工程和 IDEA 插件均打包同一份资源。目标插件版本从已有 gradle.properties 读取，BuildScripts 不更改 pins。控制插件实现继续复用 buildSrc 的 Groovy/Java 代码，游戏源码也不因 DSL 分叉。
+
+## Datagen 的现有资源
+
+Forge、NeoForge 和 ForgeGradle 的 data 运行配置从相同源层读取现有资源输入（`src/main/resources`）。仅传入实际存在的目录，跳过 `src/generated/resources`；传入顺序从 common 到 target，使目标资源保持最高优先级。provider 的输出仍由 `src/generated/resources` 维护，手写文件保留原位置。
+
+```mermaid
+flowchart LR
+    C["common/src/main/resources"] --> E["--existing：低优先级到高优先级"]
+    V["versions/&lt;mc&gt;/src/main/resources"] --> E
+    L["loaders/&lt;loader&gt;/src/main/resources"] --> E
+    T["target/src/main/resources"] --> E
+    E --> P["Data provider"]
+    P --> G["target/src/generated/resources"]
+    T --> R["processResources"]
+    C --> R
+    V --> R
+    L --> R
+    G --> R
+    R --> J["发行 JAR"]
+```
+
+Fabric 的 datagen 使用 Loom 配置的主资源集，沿用相同的共享资源路径；不向 Fabric 运行入口添加 Forge 的命令行参数。
 ]]#

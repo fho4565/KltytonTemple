@@ -18,7 +18,7 @@ extensions.configure<LegacyForgeExtension> {
         create("data") {
             data()
             programArguments.addAll("--mod", mod_id, "--all", "--output", file("src/generated/resources").absolutePath,
-                    "--existing", file("src/main/resources").absolutePath)
+                    *(project.extra["templeDatagenExistingArgs"] as Array<String>))
         }
     }
     mods.create(mod_id) { sourceSet(sourceSets.main.get()) }
