@@ -3,7 +3,7 @@
 
 [English](Minecraft-Development.en.md) · [Wiki](Home.zh-CN.md)
 
-本教程对应 IntelliJ IDEA 2026.2.3、Minecraft Development 2026.2-1.8.22 和 KltytonTemple 1.3.2。其他 IDEA 版本需使用对应版本的扩展；当前 ZIP 的兼容范围为 IDEA 262。
+本教程对应 IntelliJ IDEA 2026.2.3、Minecraft Development 2026.2-1.8.22 和 KltytonTemple 1.3.3。其他 IDEA 版本需使用对应版本的扩展；当前 ZIP 的兼容范围为 IDEA 262。
 
 KltytonTemple 是 Minecraft Development 的附加扩展。原有 Forge、Fabric、NeoForge、MultiLoader、Architectury 模板仍可使用。
 
@@ -16,7 +16,7 @@ KltytonTemple 是 Minecraft Development 的附加扩展。原有 Forge、Fabric�
 扩展源代码在 `integrations/idea-plugin`，本地生成的安装包在：
 
 ```text
-integrations/idea-plugin/build/distributions/KltytonTemple-IDEA-1.3.2.zip
+integrations/idea-plugin/build/distributions/KltytonTemple-IDEA-1.3.3.zip
 ```
 
 需要自行构建扩展时，使用模板的 Java 25 Wrapper。两个参数分别指向 IDEA 安装目录和 Minecraft Development 插件目录：
@@ -34,7 +34,7 @@ Windows 使用该目录内的 `gradlew.bat`。构建的是 IDEA 扩展，不会�
 1. 打开 IDEA 的“设置”。
 2. 进入左侧“插件”，选择“已安装”页签。
 3. 点击页签右侧的齿轮，选择“从磁盘安装插件”。
-4. 选择上面的 `KltytonTemple-IDEA-1.3.2.zip`。选择 ZIP 本身，不需要解压，也不要选择 Minecraft Development 的 JAR。
+4. 选择上面的 `KltytonTemple-IDEA-1.3.3.zip`。选择 ZIP 本身，不需要解压，也不要选择 Minecraft Development 的 JAR。
 5. 按 IDEA 提示应用。若明确要求重启，先保存正在编辑的工程，再重启。
 6. 在已安装列表中搜索 `KltytonTemple`，确认扩展启用。
 
@@ -65,8 +65,17 @@ D:/Projects/KltytonTemple/integrations/minecraft-development/templates
 2. 左侧选择 `Minecraft`。选择新版向导；不要选择 `Minecraft (Old Wizard)`。
 3. 选择 Mod 组和 `KltytonTemple` 模板。
 4. 填写工程名称和位置。这是新工程的目录，与前面的模板目录分开。
-5. 填写 Mod ID、显示名称、作者、描述、许可证及构建坐标。
+5. 在左侧填写 Mod ID、显示名称、作者、描述、许可证及构建坐标。描述框会自动折行显示，内容仍使用单行文字。
 6. Gradle 根控制工程使用 Java 21。各目标的游戏编译 Java 和 Gradle Java 独立维护。
+
+向导默认按左右各半布局：左侧是 Mod 信息、版本选择、构建坐标和 JDK，右侧是已选择的目标。可拖动分隔条调整宽度；左侧配置和右侧目标表分别滚动。窗口缩放保留手动调整后的分隔位置。
+
+```mermaid
+flowchart LR
+    L["左侧：Mod 信息与版本选择"] --> A["添加目标"]
+    A --> R["右侧：目标表格"]
+    R --> C["创建工程"]
+```
 
 “Gradle 脚本语言 / Gradle script language”决定生成的构建脚本：选择 `Groovy (.gradle)` 或 `Kotlin DSL (.gradle.kts)`。这个选项同时覆盖根工程、各目标、settings、buildSrc 构建脚本和公共构建约定。KTS 工程仍然共享同一份 common，也使用相同的构建、运行和发布任务。
 
@@ -82,7 +91,7 @@ Mod ID 用小写字母、数字和下划线，如 `temple_demo`。Java 包名使
 2. “加载器 / Loader”只列出该版本有可用构建蓝图和官方数据的加载器。
 3. 在“加载器版本 / Loader version”选择版本；Fabric 还要选择“Fabric API 版本”。字段旁的数字是当前筛选后的选项数量。带“推荐 / Recommended”的版本默认推荐，但历史版本仍可选择。
 4. Java 要求自动显示，无需手填 Java 或 Gradle 数字。
-5. 点击“添加目标 / Add target”，把这个组合加入下方表格。兼容版本和 Java 元数据尚未读完时按钮不可用。
+5. 点击“添加目标 / Add target”，把这个组合加入右侧表格。兼容版本和 Java 元数据尚未读完时按钮不可用。
 6. 同一个 Minecraft 需要第二个加载器时，切换 Loader 后再添加。
 7. 多版本工程重复上述步骤。表格中的每一行就是一个目标。
 8. 删除某行时选中它，再使用“移除所选目标 / Remove selected”。至少保留一个目标。

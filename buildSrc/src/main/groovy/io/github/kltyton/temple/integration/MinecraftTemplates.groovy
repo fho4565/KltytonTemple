@@ -57,17 +57,17 @@ final class MinecraftTemplates {
         }
         def descriptor = [version: 3, label: 'KltytonTemple', group: 'mod',
             properties: [
-                [name:'BUILD_DSL', type:'kltyton_build_dsl', label:'Gradle 脚本语言 / Gradle script language', default:'groovy', order:9],
-                [name:'BUILD_COORDS', type:'build_system_coordinates', order:10],
-                [name:'MOD_ID', type:'string', label:'Mod ID', default:'my_mod', validator:'[a-z][a-z0-9_]{1,63}',
+                [name:'BUILD_DSL', type:'kltyton_build_dsl', label:'Gradle 脚本语言 / Gradle script language', default:'groovy', order:9, visible:false],
+                [name:'BUILD_COORDS', type:'build_system_coordinates', order:10, visible:false],
+                [name:'MOD_ID', type:'string', label:'Mod ID', default:'my_mod', validator:'[a-z][a-z0-9_]{1,63}', visible:false,
                  derives:[parents:['PROJECT_NAME'], method:'replace',
                           parameters:[regex:'[^a-z0-9_]+', replacement:'_', lowercase:true, maxLength:64]]],
-                [name:'MOD_NAME', type:'string', label:'Mod 名称 / Mod name', inheritFrom:'PROJECT_NAME', default:'My Mod'],
-                [name:'TARGET_PLAN', type:'kltyton_targets', label:'Minecraft / Loader'],
-                [name:'AUTHORS', type:'string', label:'作者 / Authors', default:'kltyton'],
-                [name:'LICENSE', type:'string', label:'许可证 / License', default:'MIT'],
-                [name:'DESCRIPTION', type:'string', label:'描述 / Description', default:'A Minecraft mod.'],
-                [name:'JDK', type:'jdk', default:21, order:20]
+                [name:'MOD_NAME', type:'string', label:'Mod 名称 / Mod name', inheritFrom:'PROJECT_NAME', default:'My Mod', visible:false],
+                [name:'TARGET_PLAN', type:'kltyton_targets', label:'Minecraft / Loader', parameters:[layout:'split']],
+                [name:'AUTHORS', type:'string', label:'作者 / Authors', default:'kltyton', visible:false],
+                [name:'LICENSE', type:'string', label:'许可证 / License', default:'MIT', visible:false],
+                [name:'DESCRIPTION', type:'string', label:'描述 / Description', default:'A Minecraft mod.', visible:false],
+                [name:'JDK', type:'jdk', default:21, order:20, visible:false]
             ],
             files: files,
             finalizers: [[type:'kltyton_targets'], [type:'import_gradle_project'],

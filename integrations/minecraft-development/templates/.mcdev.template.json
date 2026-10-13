@@ -8,12 +8,14 @@
             "type": "kltyton_build_dsl",
             "label": "Gradle \u811a\u672c\u8bed\u8a00 / Gradle script language",
             "default": "groovy",
-            "order": 9
+            "order": 9,
+            "visible": false
         },
         {
             "name": "BUILD_COORDS",
             "type": "build_system_coordinates",
-            "order": 10
+            "order": 10,
+            "visible": false
         },
         {
             "name": "MOD_ID",
@@ -21,6 +23,7 @@
             "label": "Mod ID",
             "default": "my_mod",
             "validator": "[a-z][a-z0-9_]{1,63}",
+            "visible": false,
             "derives": {
                 "parents": [
                     "PROJECT_NAME"
@@ -39,36 +42,44 @@
             "type": "string",
             "label": "Mod \u540d\u79f0 / Mod name",
             "inheritFrom": "PROJECT_NAME",
-            "default": "My Mod"
+            "default": "My Mod",
+            "visible": false
         },
         {
             "name": "TARGET_PLAN",
             "type": "kltyton_targets",
-            "label": "Minecraft / Loader"
+            "label": "Minecraft / Loader",
+            "parameters": {
+                "layout": "split"
+            }
         },
         {
             "name": "AUTHORS",
             "type": "string",
             "label": "\u4f5c\u8005 / Authors",
-            "default": "kltyton"
+            "default": "kltyton",
+            "visible": false
         },
         {
             "name": "LICENSE",
             "type": "string",
             "label": "\u8bb8\u53ef\u8bc1 / License",
-            "default": "MIT"
+            "default": "MIT",
+            "visible": false
         },
         {
             "name": "DESCRIPTION",
             "type": "string",
             "label": "\u63cf\u8ff0 / Description",
-            "default": "A Minecraft mod."
+            "default": "A Minecraft mod.",
+            "visible": false
         },
         {
             "name": "JDK",
             "type": "jdk",
             "default": 21,
-            "order": 20
+            "order": 20,
+            "visible": false
         }
     ],
     "files": [

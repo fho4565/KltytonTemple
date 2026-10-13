@@ -8,6 +8,7 @@ import com.intellij.openapi.observable.properties.GraphProperty;
 import com.intellij.ui.dsl.builder.Panel;
 import io.github.kltyton.temple.workspace.BuildScripts.Dsl;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import kotlin.Unit;
 
 public final class BuildDslProperty extends CreatorProperty<String> {
@@ -21,10 +22,13 @@ public final class BuildDslProperty extends CreatorProperty<String> {
     @Override public String serialize(String input) { return Dsl.parse(input).id; }
     @Override public String deserialize(String input) { return Dsl.parse(input).id; }
     @Override public void buildUi(Panel panel) {
+        buildUi(panel, new JLabel("Gradle 脚本语言 / Gradle script language"));
+    }
+    public void buildUi(Panel panel, JLabel label) {
         JComboBox<Dsl> choices = new JComboBox<>(Dsl.values());
         choices.setSelectedItem(Dsl.parse(value.get()));
         choices.addActionListener(event -> value.set(((Dsl) choices.getSelectedItem()).id));
-        panel.row("Gradle 脚本语言 / Gradle script language", row -> { row.cell(choices); return Unit.INSTANCE; });
+        panel.row(label, row -> { row.cell(choices).resizableColumn(); return Unit.INSTANCE; });
     }
     public static final class Factory implements CreatorPropertyFactory {
         @Override public CreatorProperty<?> create(TemplatePropertyDescriptor descriptor, CreatorContext context) {
